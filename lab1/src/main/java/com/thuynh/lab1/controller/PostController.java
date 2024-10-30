@@ -16,8 +16,12 @@ public class PostController {
     PostService postService;
 
     @GetMapping
-    public List<PostDto> getAll() {
-        return postService.findAll();
+    public List<PostDto> getAll(@RequestParam(value="author", required = false) String author) {
+        if (author != null && !author.isEmpty()) {
+            return this.postService.getPostsByAuthor(author);
+        } else {
+            return postService.findAll();
+        }
     }
 
     // Filter by exact author name
