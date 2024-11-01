@@ -19,4 +19,5 @@ public interface UserService {
     List<PostDto> getPostsByUserId(Long userId);
 
     List<UserDto> getUsersWithMoreThanOnePost();
+    List<UserDto> getUsersWithOnePost();
 }

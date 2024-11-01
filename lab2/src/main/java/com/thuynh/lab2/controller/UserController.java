@@ -18,8 +18,17 @@ public class UserController {
     UserService userService;
 
     @GetMapping
-    public List<UserDto> getAll() {
-        return userService.findAll();
+    public List<UserDto> getAll(@RequestParam(required = false) Boolean multiPost) {
+        if (multiPost != null) {
+            if (multiPost) {
+                return userService.getUsersWithMoreThanOnePost();
+            }
+            else {
+                return userService.getUsersWithOnePost();
+            }
+        } else {
+            return userService.findAll();
+        }
     }
 
     @GetMapping("/{id}")
@@ -49,10 +58,5 @@ public class UserController {
     @PutMapping("/{id}")
     public void update(@PathVariable("id") int postId, @RequestBody UserDto u) {
         userService.update(postId, u);
-    }
-
-    @GetMapping("/more-than-one-post")
-    public List<UserDto> getUsersWithMoreThanOnePost() {
-        return userService.getUsersWithMoreThanOnePost();
     }
 }

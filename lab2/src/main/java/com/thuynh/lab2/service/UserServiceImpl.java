@@ -65,4 +65,9 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getUsersWithMoreThanOnePost() {
         return listMapper.mapList(userRepo.findUsersWithMoreThanOnePost(), UserDto.class);
     }
+
+    @Override
+    public List<UserDto> getUsersWithOnePost() {
+        return listMapper.mapList(userRepo.findUsersWithOnePost(), UserDto.class);
+    }
 }

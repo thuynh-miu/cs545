@@ -21,8 +21,8 @@ public class PostController {
     }
 
     // Filter by exact author name
-    @GetMapping("/author")
-    public List<PostDto> getPostsByAuthor(@RequestParam(value = "author", required = false) String author) {
+    @GetMapping("/filter")
+    public List<PostDto> getPostsByAuthor(@RequestParam(required = false) String author) {
         return postService.getPostsByAuthor(author);
     }
 
