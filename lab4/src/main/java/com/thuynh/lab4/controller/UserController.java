@@ -1,6 +1,7 @@
 package com.thuynh.lab4.controller;
 
 import com.thuynh.lab4.aspect.annotation.ExecutionTime;
+import com.thuynh.lab4.aspect.annotation.LogMe;
 import com.thuynh.lab4.entity.Post;
 import com.thuynh.lab4.entity.dto.CommentDto;
 import com.thuynh.lab4.entity.dto.PostDto;
@@ -19,6 +20,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @LogMe
     @GetMapping
     public List<UserDto> getAll(@RequestParam(required = false) Boolean multiPost) {
         if (multiPost != null) {
@@ -34,6 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/n-posts")
+    @LogMe
     public List<UserDto> getAll(@RequestParam() Integer n) {
         if (n == null || n < 1) {
             throw new IllegalArgumentException("Parameter 'n' must be a positive integer.");
@@ -44,12 +47,14 @@ public class UserController {
 
     @GetMapping("/{id}")
     @ExecutionTime
+    @LogMe
     public ResponseEntity<UserDto> getById(@PathVariable int id) {
         var user = userService.getById(id);
         return ResponseEntity.ok(user);
     }
 
     @GetMapping("/{userId}/posts")
+    @LogMe
     public ResponseEntity<List<PostDto>> getPostsByUserId(@PathVariable Long userId) {
         List<PostDto> posts = userService.getPostsByUserId(userId);
         return ResponseEntity.ok(posts);
@@ -57,12 +62,14 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
+    @LogMe
     public void save(@RequestBody UserDto u) {
         userService.save(u);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
+    @LogMe
     public void delete(@PathVariable int id) {
         userService.delete(id);
     }
@@ -78,6 +85,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/posts/{postId}")
+    @LogMe
     public ResponseEntity<PostDto> getPostByUserIdPostId(@PathVariable Long userId,
                                                          @PathVariable Long postId) {
         PostDto post = userService.getPostByUserIdPostId(userId, postId);
@@ -90,6 +98,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/posts/{postId}/comments")
+    @LogMe
     public ResponseEntity<List<CommentDto>> getCommentsByUserIdPostId(@PathVariable Long userId,
                                                                       @PathVariable Long postId) {
         List<CommentDto> comments = userService.getCommentsByUserIdPostId(userId, postId);
@@ -102,6 +111,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/posts/{postId}/comments/{commentId}")
+    @LogMe
     public ResponseEntity<CommentDto> getCommentsByUserIdPostIdCommendId(@PathVariable Long userId,
                                                                      @PathVariable Long postId,
                                                                      @PathVariable Long commentId) {

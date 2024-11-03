@@ -1,5 +1,6 @@
 package com.thuynh.lab4.controller;
 
+import com.thuynh.lab4.aspect.annotation.LogMe;
 import com.thuynh.lab4.entity.dto.CommentDto;
 import com.thuynh.lab4.entity.dto.PostDto;
 import com.thuynh.lab4.service.PostService;
@@ -17,12 +18,14 @@ public class PostController {
     PostService postService;
 
     @GetMapping
+    @LogMe
     public List<PostDto> getAll() {
         return postService.findAll();
     }
 
     // Filter by partial text in author name
     @GetMapping("/filter")
+    @LogMe
     public List<PostDto> searchPosts(
             @RequestParam(required = false) String author,
             @RequestParam(required = false) String title) {
@@ -38,6 +41,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
+    @LogMe
     public ResponseEntity<PostDto> getById(@PathVariable int id) {
         var post = postService.getById(id);
         return ResponseEntity.ok(post);
@@ -45,22 +49,26 @@ public class PostController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
+    @LogMe
     public void save(@RequestBody PostDto p) {
         postService.save(p);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
+    @LogMe
     public void delete(@PathVariable int id) {
         postService.delete(id);
     }
 
     @PutMapping("/{id}")
+    @LogMe
     public void update(@PathVariable("id") int postId, @RequestBody PostDto p) {
         postService.update(postId, p);
     }
 
     @PostMapping("/{postId}/comment")
+    @LogMe
     public CommentDto addComment(@PathVariable int postId, @RequestBody CommentDto comment) {
         return postService.addComment(postId, comment.getName());
     }
