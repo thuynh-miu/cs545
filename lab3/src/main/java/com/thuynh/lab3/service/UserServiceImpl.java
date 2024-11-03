@@ -1,6 +1,9 @@
 package com.thuynh.lab3.service;
 
+import com.thuynh.lab3.entity.Comment;
+import com.thuynh.lab3.entity.Post;
 import com.thuynh.lab3.entity.User;
+import com.thuynh.lab3.entity.dto.CommentDto;
 import com.thuynh.lab3.entity.dto.PostDto;
 import com.thuynh.lab3.entity.dto.UserDto;
 import com.thuynh.lab3.helper.ListMapper;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -72,5 +76,61 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getUsersWithMoreThanNPosts(int n) {
         return listMapper.mapList(userRepo.findUsersWithMoreThanNPosts(n), UserDto.class);
+    }
+
+    @Override
+    public List<UserDto> getUsersByPosts(String title) {
+        return listMapper.mapList(userRepo.findUsersByPostsTitleContainingIgnoreCase(title), UserDto.class);
+    }
+
+    @Override
+    public PostDto getPostByUserIdPostId(long userId, long postId) {
+        AtomicReference<Post> foundPost = new AtomicReference<>();
+
+        userRepo.findById(userId).ifPresent(user -> {
+            user.getPosts().stream()
+                    .filter(post -> post.getId() == postId)
+                    .findFirst()
+                    .ifPresent(foundPost::set);
+        });
+
+        return foundPost.get() != null ? modelMapper.map(foundPost.get(), PostDto.class)
+                : null;
+    }
+
+    @Override
+    public List<CommentDto> getCommentsByUserIdPostId(long userId, long postId) {
+        AtomicReference<List<CommentDto>> foundComments = new AtomicReference<>();
+
+        userRepo.findById(userId).ifPresent(user -> {
+            user.getPosts().stream()
+                    .filter(post -> post.getId() == postId)
+                    .findFirst()
+                    .ifPresent(post -> {
+                        foundComments.set(listMapper.mapList(post.getComments(), CommentDto.class));
+                    });
+        });
+
+        return foundComments.get() != null ? foundComments.get() : null;
+    }
+
+    @Override
+    public CommentDto getCommentByUserIdPostIdCommendId(long userId, long postId, long commentId) {
+        AtomicReference<Comment> foundComment = new AtomicReference<>();
+
+        userRepo.findById(userId).ifPresent(user -> {
+            user.getPosts().stream()
+                    .filter(post -> post.getId() == postId)
+                    .findFirst()
+                    .ifPresent(post -> {
+                        post.getComments().stream()
+                                .filter(comment -> comment.getId() == commentId)
+                                .findFirst()
+                                .ifPresent(foundComment::set);
+                    });
+        });
+
+        return foundComment.get() != null ? modelMapper.map(foundComment.get(), CommentDto.class)
+                : null;
     }
 }

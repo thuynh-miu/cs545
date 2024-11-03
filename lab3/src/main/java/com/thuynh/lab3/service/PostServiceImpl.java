@@ -56,20 +56,14 @@ public class PostServiceImpl implements PostService {
         }
     }
 
-    // Filter posts by exact author name
-    public List<PostDto> getPostsByAuthor(String author) {
-        return postRepo.findAll().stream()
-                .filter(post -> post.getAuthor().equalsIgnoreCase(author))
-                .map(post -> modelMapper.map(post, PostDto.class))
-                .collect(Collectors.toList());
+    @Override
+    public List<PostDto> searchPostsByTitle(String title) {
+        return listMapper.mapList(postRepo.findByTitleContainingIgnoreCase(title), PostDto.class);
     }
 
-    // Filter posts by partial author name
-    public List<PostDto> getPostsByAuthorContains(String text) {
-        return postRepo.findAll().stream()
-                .filter(post -> post.getAuthor().toLowerCase().contains(text.toLowerCase()))
-                .map(post -> modelMapper.map(post, PostDto.class))
-                .collect(Collectors.toList());
+    @Override
+    public List<PostDto> searchPostsByAuthor(String author) {
+        return listMapper.mapList(postRepo.findByAuthorContainingIgnoreCase(author), PostDto.class);
     }
 
     public CommentDto addComment(long postId, String commentText) {

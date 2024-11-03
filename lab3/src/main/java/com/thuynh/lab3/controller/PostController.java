@@ -1,6 +1,5 @@
 package com.thuynh.lab3.controller;
 
-import com.thuynh.lab3.entity.Comment;
 import com.thuynh.lab3.entity.dto.CommentDto;
 import com.thuynh.lab3.entity.dto.PostDto;
 import com.thuynh.lab3.service.PostService;
@@ -22,16 +21,20 @@ public class PostController {
         return postService.findAll();
     }
 
-    // Filter by exact author name
-    @GetMapping("/filter")
-    public List<PostDto> getPostsByAuthor(@RequestParam(required = false) String author) {
-        return postService.getPostsByAuthor(author);
-    }
-
     // Filter by partial text in author name
-    @GetMapping("/search")
-    public List<PostDto> getPostsByAuthorContains(@RequestParam(value = "author", required = false) String text) {
-        return postService.getPostsByAuthorContains(text);
+    @GetMapping("/filter")
+    public List<PostDto> searchPosts(
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String title) {
+        if (author != null) {
+            return postService.searchPostsByAuthor(author);
+        }
+        else if (title != null) {
+            return postService.searchPostsByTitle(title);
+        }
+        else {
+            return postService.findAll();
+        }
     }
 
     @GetMapping("/{id}")

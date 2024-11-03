@@ -1,7 +1,9 @@
 package com.thuynh.lab3.service;
 
+import com.thuynh.lab3.entity.dto.CommentDto;
 import com.thuynh.lab3.entity.dto.PostDto;
 import com.thuynh.lab3.entity.dto.UserDto;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -21,4 +23,10 @@ public interface UserService {
     List<UserDto> getUsersWithMoreThanOnePost();
     List<UserDto> getUsersWithOnePost();
     List<UserDto> getUsersWithMoreThanNPosts(int n);
+
+    List<UserDto> getUsersByPosts(String title);
+
+    PostDto getPostByUserIdPostId(long userId, long postId);
+    List<CommentDto> getCommentsByUserIdPostId(long userId, long postId);
+    CommentDto getCommentByUserIdPostIdCommendId(long userId, long postId, long commentID);
 }

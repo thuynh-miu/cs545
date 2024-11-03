@@ -16,9 +16,8 @@ public interface PostService {
 
     void update(long id, PostDto p);
 
-    List<PostDto> getPostsByAuthor(String author);
-
-    List<PostDto> getPostsByAuthorContains(String text);
+    List<PostDto> searchPostsByTitle(String title);
+    List<PostDto> searchPostsByAuthor(String author);
 
     CommentDto addComment(long postId, String commentText);
 }

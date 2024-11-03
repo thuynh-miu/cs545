@@ -16,4 +16,6 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     @Query("select u from User u where size(u.posts) = 1")
     List<User> findUsersWithOnePost();
+
+    List<User> findUsersByPostsTitleContainingIgnoreCase(String title);
 }
