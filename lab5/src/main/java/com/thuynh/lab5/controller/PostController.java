@@ -1,0 +1,75 @@
+package com.thuynh.lab5.controller;
+
+import com.thuynh.lab5.aspect.annotation.LogMe;
+import com.thuynh.lab5.entity.dto.CommentDto;
+import com.thuynh.lab5.entity.dto.PostDto;
+import com.thuynh.lab5.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RequestMapping("api/v1/posts")
+@RestController
+public class PostController {
+    @Autowired
+    PostService postService;
+
+    @GetMapping
+    @LogMe
+    public List<PostDto> getAll() {
+        return postService.findAll();
+    }
+
+    // Filter by partial text in author name
+    @GetMapping("/filter")
+    @LogMe
+    public List<PostDto> searchPosts(
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String title) {
+        if (author != null) {
+            return postService.searchPostsByAuthor(author);
+        }
+        else if (title != null) {
+            return postService.searchPostsByTitle(title);
+        }
+        else {
+            return postService.findAll();
+        }
+    }
+
+    @GetMapping("/{id}")
+    @LogMe
+    public ResponseEntity<PostDto> getById(@PathVariable int id) {
+        var post = postService.getById(id);
+        return ResponseEntity.ok(post);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    @LogMe
+    public void save(@RequestBody PostDto p) {
+        postService.save(p);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    @LogMe
+    public void delete(@PathVariable int id) {
+        postService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    @LogMe
+    public void update(@PathVariable("id") int postId, @RequestBody PostDto p) {
+        postService.update(postId, p);
+    }
+
+    @PostMapping("/{postId}/comment")
+    @LogMe
+    public CommentDto addComment(@PathVariable int postId, @RequestBody CommentDto comment) {
+        return postService.addComment(postId, comment.getName());
+    }
+}
