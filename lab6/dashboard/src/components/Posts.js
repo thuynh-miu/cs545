@@ -1,14 +1,15 @@
-import PostItem from './Post'
+import Post from './Post'
 
-const Posts = ({posts, onClick}) => {
+const Posts = (props) => {
 
-    const postsList = posts.map(post => {
+    const postsList = props.posts.map(post => {
         return (
-            <PostItem
+            <Post
                 id={post.id}
                 title={post.title}
                 author={post.author}
-                onClick={() => onClick(post.id)}
+                onClick={() => props.setSelected(post.id)}
+                key={post.id}
             />
         )
     })

@@ -1,4 +1,4 @@
-const PostItem = ({id, title, author, onClick}) => {
+const Post = ({id, title, author, onClick}) => {
     return (
         <div onClick={onClick} style={styles.container} key={id}>
             <p>Id: {id}</p>
@@ -22,4 +22,4 @@ const styles = {
     }
 }
 
-export default PostItem;
+export default Post;
