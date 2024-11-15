@@ -1,25 +1,21 @@
-const Post = ({id, title, author, onClick}) => {
+import './Post.css';
+
+const Post = ({ id, title, author, setSelected, deletePost }) => {
     return (
-        <div onClick={onClick} style={styles.container} key={id}>
-            <p>Id: {id}</p>
-            <p>Title: {title}</p>
+        <div className="container" onClick={setSelected} key={id}>
+            <h3>Title: {title}</h3>
             <p>Author: {author}</p>
+            <div className="Edit">
+                <input
+                    type="button"
+                    value="Delete"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        deletePost();
+                    }} />
+            </div>
         </div>
     );
-}
-
-const styles = {
-    container: {
-        border: '2px solid #385d8a',
-        background: '#4f81bd',
-        margin: '10px',
-        padding: '10px',
-        color: '#fff',
-        fontSize: '20px',
-        flex: 1,
-        maxWidth: '160px',
-        cursor: 'pointer'
-    }
 }
 
 export default Post;

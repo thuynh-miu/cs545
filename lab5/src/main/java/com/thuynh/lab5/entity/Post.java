@@ -20,7 +20,7 @@ public class Post {
     String content;
     String author;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     List<Comment> comments;
 

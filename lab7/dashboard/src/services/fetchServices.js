@@ -11,6 +11,36 @@ const get = async (url) => {
     }
 }
 
+const getById = async (url, id) => {
+    try {
+        let data = {};
+        data = (await API.get(`${url}/${id}`)).data;
+        return data;
+    } catch (error) {
+        console.log(error.message)
+        return {};
+    }
+}
+
+const post = async (url, data) => {
+    try {
+        await API.post(url, data)
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+const deleteById = async (url, id) => {
+    try {
+        await API.delete(`${url}/${id}`);
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
 export const fetchService = {
-    get
+    get,
+    getById,
+    deleteById,
+    post
 };

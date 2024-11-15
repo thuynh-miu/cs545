@@ -5,11 +5,12 @@ const Posts = (props) => {
     const postsList = props.posts.map(post => {
         return (
             <Post
+                key={post.id}
                 id={post.id}
                 title={post.title}
                 author={post.author}
-                onClick={() => props.setSelected(post.id)}
-                key={post.id}
+                deletePost = {() => props.deletePost(post.id)}
+                setSelected={() => props.setSelected(post.id)}
             />
         )
     })

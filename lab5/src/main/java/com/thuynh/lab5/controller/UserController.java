@@ -2,7 +2,6 @@ package com.thuynh.lab5.controller;
 
 import com.thuynh.lab5.aspect.annotation.ExecutionTime;
 import com.thuynh.lab5.aspect.annotation.LogMe;
-import com.thuynh.lab5.entity.Post;
 import com.thuynh.lab5.entity.dto.CommentDto;
 import com.thuynh.lab5.entity.dto.PostDto;
 import com.thuynh.lab5.entity.dto.UserDto;
@@ -16,6 +15,7 @@ import java.util.List;
 
 @RequestMapping("api/v1/users")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
     @Autowired
     UserService userService;

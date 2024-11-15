@@ -45,8 +45,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/authenticate/**").permitAll()
                         .requestMatchers("/api/v1/admin").hasAuthority("ADMIN")
-                        .requestMatchers("api/v1/posts/**").hasAnyAuthority(roles)
-                        .requestMatchers("api/v1/users/**").hasAnyAuthority(roles)
+                        .requestMatchers("api/v1/posts/**").permitAll()
+                        .requestMatchers("api/v1/users/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

@@ -1,16 +1,45 @@
+import { useState, useEffect } from "react"
+import { fetchService } from "../services/fetchServices"
+import Comments from "./Comments"
+import './PostDetails.css'
+
 const PostDetails = (props) => {
+    const [postDetail, setPostDetail] = useState({
+        comments: []
+    })
+
+    const fetchPost = async () => {
+        if (!props.id) return;
+
+        try {
+            const post = await fetchService.getById("posts", props.id)
+            if (post) {
+                setPostDetail(post)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchPost()
+    }, [props.id])
+
     return (
-        <div style={styles.postDetails}>
-            <div style={styles.postDetailsTitle}>
-                <p style={{textDecoration: 'underline'}}>{props.post.title}</p>
-                <p>{props.post.author}</p>
+        <div className="postDetails">
+            <div className="postDetailsTitle">
+                <p className="postDetailTitleText">{postDetail.title}</p>
+                <p>{postDetail.author}</p>
             </div>
-            <div style={styles.postDetailsContent}>
-                <p>This is the content in the post…</p>
+            <div className="postDetailsContent">
+                <p>{postDetail.content}</p>
             </div>
-            <div style={styles.postDetailsButton}>
-                <button style={styles.buttonUnderline} type="submit">{'Edit'}</button>
-                <button style={styles.buttonUnderline} type="submit">{'Delete'}</button>
+
+            <Comments comments={postDetail.comments} />
+
+            <div className="postDetailsButton">
+                <button className="buttonUnderline" type="submit">{'Edit'}</button>
+                <button className="buttonUnderline" type="submit">{'Delete'}</button>
             </div>
         </div>
     )
