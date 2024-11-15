@@ -23,10 +23,6 @@ const Dashboard = () => {
         })
     }
 
-    useEffect(() => {
-        fetchPosts()
-    }, [])
-
     const setSelected = (id) => {
         setSelectedState(id)
         const post = postsState.find(post => post.id === id)
