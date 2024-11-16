@@ -1,0 +1,34 @@
+.postDetails {
+    margin-top: 20px;
+    width: 600px;
+    border: 2px solid #385d8a;
+    padding: 10px;
+}
+
+.postDetailsTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.postDetailsContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.postDetailsButton {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.buttonUnderline {
+    border: none;
+    background-color: transparent;
+    text-decoration: underline;
+    margin-right: 10px;
+    font-size: 16px;
+    color: red;
+    cursor: pointer;
+    margin: 5px 20px;
+}
